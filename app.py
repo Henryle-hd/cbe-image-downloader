@@ -24,7 +24,7 @@ st.set_page_config(
     }
 )
 
-st.title("All CBE student profiles image")
+st.title("CBE Student Profile Images")
 
 student_id = st.text_input("Enter Student ID:",placeholder="eg.02.9585.21.01.2021")
 if student_id:
