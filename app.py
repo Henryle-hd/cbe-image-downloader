@@ -48,7 +48,7 @@ selected_doc = st.selectbox("Select Document:", doc_names)
 if selected_doc:
     doc_url = URL + selected_doc
     if selected_doc.lower().endswith('.pdf'):
-        st.write(f'<iframe src="{doc_url}#toolbar=0" width="100%" height="800px"></iframe>', unsafe_allow_html=True)
+        st.markdown(f'<embed src="{doc_url}" type="application/pdf" width="100%" height="800px">', unsafe_allow_html=True)
         response = requests.get(doc_url)
         if response.status_code == 200:
             st.download_button(
