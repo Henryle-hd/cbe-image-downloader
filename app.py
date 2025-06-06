@@ -24,7 +24,7 @@ st.set_page_config(
     }
 )
 
-st.title("CBE Image Downloader")
+st.title("All CBE student profiles image")
 
 student_id = st.text_input("Enter Student ID:",placeholder="eg.02.9585.21.01.2021")
 if student_id:
@@ -45,8 +45,9 @@ if student_id:
         else:
             st.error("Failed to download image.")
 
-st.title("Public Student DOCS")
+
 doc_names = fetch_doc_names()
+st.title(f"Over '{len(doc_names)}' Student DOCS")
 selected_doc = st.selectbox("Select Document:", doc_names, placeholder="Choose a document...")
 if selected_doc:
     doc_url = URL + selected_doc
