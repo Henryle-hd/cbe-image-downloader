@@ -10,7 +10,7 @@ URL = os.getenv("URL")
 
 def fetch_image(id:str):
     id=id.replace('.','_')
-    image_url=f'https://cosis.cbe.ac.tz/media/profiles/student/{id}.jpg'
+    image_url=f'{URL}{id}.jpg'
     print(image_url)
     file_name=f'{id}.jpg'
     try:
