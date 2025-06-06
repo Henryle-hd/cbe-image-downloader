@@ -1,6 +1,13 @@
 import streamlit as st
 from cbe_image import fetch_image
+from cbe_doc import fetch_doc_names
 import requests
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+URL=os.getenv("DOC_URL")
 
 st.set_page_config(
     page_title="CBE Image Downloader",
@@ -34,3 +41,29 @@ if student_id:
             )
         else:
             st.error("Failed to download image.")
+
+st.title("Public Student DOCS")
+doc_names = fetch_doc_names()
+selected_doc = st.selectbox("Select Document:", doc_names)
+if selected_doc:
+    doc_url = URL + selected_doc
+    if selected_doc.lower().endswith('.pdf'):
+        st.write(f'<iframe src="{doc_url}#toolbar=0" width="100%" height="800px"></iframe>', unsafe_allow_html=True)
+        response = requests.get(doc_url)
+        if response.status_code == 200:
+            st.download_button(
+                label="Download PDF",
+                data=response.content,
+                file_name=selected_doc,
+                mime="application/pdf"
+            )
+    elif selected_doc.lower().endswith(('.jpg', '.jpeg', '.png', '.gif')):
+        st.image(doc_url)
+        response = requests.get(doc_url)
+        if response.status_code == 200:
+            st.download_button(
+                label="Download Image",
+                data=response.content,
+                file_name=selected_doc,
+                mime="image/jpeg"
+            )
