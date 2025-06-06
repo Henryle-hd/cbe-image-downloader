@@ -2,7 +2,8 @@ import streamlit as st
 from cbe_image import fetch_image
 from cbe_doc import fetch_doc_names
 import requests
-
+import base64
+from io import BytesIO
 from dotenv import load_dotenv
 import os
 
@@ -48,7 +49,21 @@ selected_doc = st.selectbox("Select Document:", doc_names)
 if selected_doc:
     doc_url = URL + selected_doc
     if selected_doc.lower().endswith('.pdf'):
-        st.markdown(f'<embed src="{doc_url}" type="application/pdf" width="100%" height="800px">', unsafe_allow_html=True)
+        # st.markdown(f'<embed src="{doc_url}" type="application/pdf" width="100%" height="800px">', unsafe_allow_html=True)
+
+        # Alternative Solution 3: Using st.components for better compatibility
+        # 
+        # components.iframe(doc_url, height=800)
+
+        try:
+            response = requests.get(doc_url)
+            if response.status_code == 200:
+                base64_pdf = base64.b64encode(response.content).decode('utf-8')
+                pdf_display = f'<iframe src="data:application/pdf;base64,{base64_pdf}" width="100%" height="800px"></iframe>'
+                st.markdown(pdf_display, unsafe_allow_html=True)
+        except Exception as e:
+            st.error(f"Error loading PDF: {e}")
+
         response = requests.get(doc_url)
         if response.status_code == 200:
             st.download_button(
