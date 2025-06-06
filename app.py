@@ -47,7 +47,7 @@ if student_id:
 
 
 doc_names = fetch_doc_names()
-st.title(f"Over '{len(doc_names)}' Student DOCS")
+st.title("Unsecured Student Files", help="List of accessible student documents")
 selected_doc = st.selectbox("Select Document:", doc_names, placeholder="Choose a document...")
 if selected_doc:
     doc_url = URL + selected_doc
